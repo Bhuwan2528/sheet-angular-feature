@@ -1,0 +1,237 @@
+
+<section class="shop-page">
+
+  <!-- Hero Banner -->
+  <section class="shop-banner">
+
+    <div class="banner-content">
+      <span class="banner-label">THE NEW COLLECTION</span>
+
+      <h1>Find Your<br>Own Style.</h1>
+
+      <p>Explore timeless styles made for everyday expression.</p>
+
+      <button class="banner-btn" type="button">
+        EXPLORE COLLECTION
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- Shop Content -->
+  <section class="shop-content">
+
+    <!-- Sidebar Overlay -->
+    @if (isSidebarOpen()) {
+      <button
+        class="sidebar-backdrop"
+        type="button"
+        aria-label="Close filters"
+        (click)="closeSidebar()">
+      </button>
+    }
+
+
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.sidebar-open]="isSidebarOpen()">
+
+      <div class="sidebar-heading">
+
+        <h3>Filters</h3>
+
+        <button
+          class="sidebar-close-btn"
+          type="button"
+          aria-label="Close filters"
+          (click)="closeSidebar()">
+          ✕
+        </button>
+
+        <span class="clear-filters">Clear all</span>
+
+      </div>
+
+
+      <div class="filter-section">
+
+        <h4>Categories</h4>
+
+        <label><input type="checkbox"> T-Shirts</label>
+        <label><input type="checkbox"> Shirts</label>
+        <label><input type="checkbox"> Jeans</label>
+        <label><input type="checkbox"> Trousers</label>
+        <label><input type="checkbox"> Sneakers</label>
+        <label><input type="checkbox"> Hoodies</label>
+
+      </div>
+
+
+      <div class="filter-section">
+
+        <h4>Price Range</h4>
+
+        <input type="range" min="500" max="3000" value="2000">
+
+        <div class="price-range">
+          <span>₹500</span>
+          <span>₹3000</span>
+        </div>
+
+      </div>
+
+
+      <div class="filter-section">
+
+        <h4>Sizes</h4>
+
+        <div class="size-options">
+          <button type="button">S</button>
+          <button type="button">M</button>
+          <button type="button">L</button>
+          <button type="button">XL</button>
+        </div>
+
+      </div>
+
+
+      <div class="filter-section">
+
+        <h4>Availability</h4>
+
+        <label><input type="checkbox"> In Stock</label>
+        <label><input type="checkbox"> Out of Stock</label>
+
+      </div>
+
+    </aside>
+
+
+    <!-- Products Section -->
+    <main class="products-section">
+
+      <div class="products-header">
+
+        <div class="products-title">
+
+          <span class="section-label">OUR COLLECTION</span>
+
+          <h2>Explore Products</h2>
+
+          <p>{{ products().length }} products available</p>
+
+        </div>
+
+
+        <div class="products-actions">
+
+          <button
+            class="mobile-filter-btn"
+            type="button"
+            (click)="toggleSidebar()">
+
+            <span>☷</span>
+            Filters
+
+          </button>
+
+          <select aria-label="Sort products">
+            <option>Sort By: Featured</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+            <option>Newest First</option>
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <!-- Loading -->
+      @if (loading()) {
+
+        <div class="message">
+          Loading products...
+        </div>
+
+      }
+
+
+      <!-- Error -->
+      @if (errorMessage()) {
+
+        <div class="message error">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      <!-- Product Grid -->
+      @if (!loading() && !errorMessage()) {
+
+        <div class="product-grid">
+
+          @for (product of products(); track product.id) {
+
+            <article class="product-card">
+
+              <div class="product-image">
+
+                <img
+                  [src]="product.image"
+                  [alt]="product.name"
+                  loading="lazy">
+
+                <span class="product-category">
+                  {{ product.category }}
+                </span>
+
+                <button
+                  class="wishlist-btn"
+                  type="button"
+                  aria-label="Add to wishlist">
+                  ♡
+                </button>
+
+              </div>
+
+
+              <div class="product-info">
+
+                <h3>{{ product.name }}</h3>
+
+                <p>{{ product.description }}</p>
+
+                <div class="product-price">
+
+                  <strong>₹{{ product.price }}</strong>
+
+                  <del>₹{{ product.originalPrice }}</del>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+
+        @if (products().length === 0) {
+
+          <div class="message">
+            No products found.
+          </div>
+
+        }
+
+      }
+
+    </main>
+
+  </section>
+
+</section>
